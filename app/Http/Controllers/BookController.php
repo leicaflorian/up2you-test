@@ -32,7 +32,7 @@
 			$book = Book::create($payload);
 			$book->authors()->attach($payload['authors']);
 			
-			return $book;
+			return $book->load("authors");
 		}
 		
 		/**
@@ -60,7 +60,7 @@
 				$book->authors()->sync($payload['authors']);
 			}
 			
-			return $book;
+			return $book->load("authors");
 		}
 		
 		/**
