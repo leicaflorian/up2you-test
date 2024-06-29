@@ -22,7 +22,8 @@ La prova è suddivisa nelle seguenti parti:
 4. Run `php artisan key:generate`
 5. Run `php artisan serve`
 
-There is no need to run the migrations, as the database is an SqLite is already seeded with some data.
+There is no need to run the migrations, as the database is an SQLite file located in `database/database.sqlite`,
+and has already been seeded with the necessary data.
 Nevertheless, you can view the migrations and seeders in the `database` folder and run them if you want to switch to a
 different database.
 
