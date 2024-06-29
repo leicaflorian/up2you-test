@@ -13,7 +13,8 @@
 		 * Display a listing of the resource.
 		 */
 		public function index(): LengthAwarePaginator {
-			return Book::paginate(10);
+			return Book::with("authors")
+				->paginate(10);
 		}
 		
 		/**
@@ -38,7 +39,7 @@
 		 * Display the specified resource.
 		 */
 		public function show(Book $book): Book {
-			return $book;
+			return $book->load("authors");
 		}
 		
 		/**

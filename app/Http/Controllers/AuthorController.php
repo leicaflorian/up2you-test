@@ -14,7 +14,8 @@
 		 * Display a listing of the resource.
 		 */
 		public function index(): LengthAwarePaginator {
-			return Author::paginate(10);
+			return Author::withCount("books")
+				->paginate(10);
 		}
 		
 		/**
@@ -33,7 +34,7 @@
 		 * Display the specified resource.
 		 */
 		public function show(Author $author): Model|Collection|Author|array|null {
-			return $author;
+			return $author->load("books");
 		}
 		
 		/**
