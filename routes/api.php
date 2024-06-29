@@ -1,5 +1,6 @@
 <?php
 	
+	use App\Http\Middleware\ApiKeyMiddleware;
 	use Illuminate\Http\Request;
 	use Illuminate\Support\Facades\Route;
 	
@@ -7,7 +8,8 @@
 		return $request->user();
 	})->middleware('auth:sanctum');*/
 	
-	Route::group([], function () {
+	Route::middleware(ApiKeyMiddleware::class)
+		->group(function () {
 		Route::resource('authors', \App\Http\Controllers\AuthorController::class)->except(['create', 'edit']);
 		Route::resource('books', \App\Http\Controllers\BookController::class)->except(['create', 'edit']);
 	});
