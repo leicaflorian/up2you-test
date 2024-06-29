@@ -51,7 +51,9 @@
 				->assertJsonStructure([
 					'current_page',
 					'data' => [
-						'*' => $this->basic_author_structure,
+						'*' => array_merge($this->basic_author_structure, [
+							"books_count"
+						]),
 					],
 					"next_page_url",
 					"path",
@@ -66,7 +68,21 @@
 			$response = $this->withHeaders($this->get_correct_headers())->get('/api/authors/1');
 			
 			$response->assertStatus(200)
-				->assertJsonStructure($this->basic_author_structure);
+				->assertJsonStructure(array_merge($this->basic_author_structure,
+					[
+						"books" => [
+							"*" => [
+								"id",
+								"title",
+								"subtitle",
+								"publisher",
+								"description",
+								"created_at",
+								"updated_at",
+							]
+						]
+					]
+				));
 		}
 		
 		public function test_show_fail(): void {

@@ -5,6 +5,7 @@
 	use App\Models\Book;
 	use Illuminate\Foundation\Testing\RefreshDatabase;
 	use Illuminate\Foundation\Testing\WithFaker;
+	use Illuminate\Testing\Fluent\AssertableJson;
 	use Tests\TestCase;
 	
 	class BookTest extends TestCase {
@@ -96,6 +97,10 @@
 					'subtitle'    => 'Some random subtitle',
 					'publisher'   => 'Some publisher',
 					'description' => 'Some description',
+					'authors' => [
+						['id' => 1],
+						['id' => 2],
+					]
 				]);
 		}
 		
@@ -126,6 +131,7 @@
 			$response = $this->withHeaders($this->get_correct_headers())->put("/api/books/$last_book->id", [
 				'subtitle'  => 'This subtitle has been changed',
 				'publisher' => 'Also a new publisher',
+				'authors' => [1]
 			]);
 			
 			$response->assertStatus(200)
@@ -135,7 +141,16 @@
 					'subtitle'    => 'This subtitle has been changed',
 					'publisher'   => 'Also a new publisher',
 					'description' => 'Some description',
+					'authors' => [
+						['id' => 1],
+					]
 				]);
+			
+			// Ensure that the author with id 2 is not in the authors array
+			$authors = $response->json('authors');
+			foreach ($authors as $author) {
+				$this->assertNotEquals(2, $author['id']);
+			}
 		}
 		
 		public function test_update_fail(): void {
