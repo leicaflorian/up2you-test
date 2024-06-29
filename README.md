@@ -24,8 +24,8 @@ La prova è suddivisa nelle seguenti parti:
 
 There is no need to run the migrations, as the database is an SQLite file located in `database/database.sqlite`,
 and has already been seeded with the necessary data.
-Nevertheless, you can view the migrations and seeders in the `database` folder and run them if you want to switch to a
-different database.
+Nevertheless, you can view the migrations and seeders in the `database` folder and run them if you eventually 
+would like to switch to a different database.
 
 ## Tests
 Tests are located in the `tests` folder, and they can be run with the command `php artisan test`
