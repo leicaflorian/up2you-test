@@ -7,6 +7,7 @@
 	use Illuminate\Database\Eloquent\Collection;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Http\Request;
+	use Illuminate\Http\Response;
 	
 	class AuthorController extends Controller {
 		/**
@@ -52,11 +53,13 @@
 		/**
 		 * Remove the specified resource from storage.
 		 */
-		public function destroy(Author $author): void {
+		public function destroy(Author $author): Response {
 			// detach all books from this author
 			$author->books()->detach();
 			
 			// delete the author
 			$author->delete();
+			
+			return response()->noContent();
 		}
 	}

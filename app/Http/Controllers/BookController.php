@@ -6,6 +6,7 @@
 	use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Http\Request;
+	use Illuminate\Http\Response;
 	
 	class BookController extends Controller {
 		/**
@@ -53,7 +54,10 @@
 			]);
 			
 			$book->update($payload);
-			$book->authors()->sync($payload['authors']);
+			
+			if (array_key_exists('authors', $payload)) {
+				$book->authors()->sync($payload['authors']);
+			}
 			
 			return $book;
 		}
@@ -61,11 +65,13 @@
 		/**
 		 * Remove the specified resource from storage.
 		 */
-		public function destroy(Book $book): void {
+		public function destroy(Book $book): Response {
 			// first remove all authors from this book
 			$book->authors()->detach();
 			
 			// then delete the book
 			$book->delete();
+			
+			return response()->noContent();
 		}
 	}
